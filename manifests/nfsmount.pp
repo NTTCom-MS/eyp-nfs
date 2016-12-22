@@ -26,6 +26,7 @@ define nfs::nfsmount (
                           $mount_mode    = '0755',
                           $check_file    = 'is.mounted',
                           $check_content = "OK\n",
+                          $bind_mounts   = undef,
                         ) {
 
   Exec {
@@ -116,6 +117,29 @@ define nfs::nfsmount (
         options  => $nfsoptions,
         remounts => true,
         require  => $require_mount,
+  }
+
+  #bind_mounts
+  if($bind_mounts!=undef)
+  {
+    validate_array($bind_mounts)
+
+    # plain_mounts:
+    #   '/shared_fs/':
+    #     ensure: 'mounted'
+    #     device: '/opt/systemadmin/shared'
+    #     fstype: 'none'
+    #     options: 'rw,bind'
+
+    # no pot estar el fstab pq al arrancar no fagi el bindmount sense el nfs mountat
+    mount { $bind_mounts
+      ensure  => 'mounted',
+      device  => $mount,
+      fstype  => 'none',
+      options => 'rw,bind',
+      atboot  => false,
+      require => Mount[$mount],
+    }
   }
 
 }

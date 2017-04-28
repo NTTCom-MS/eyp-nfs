@@ -1,6 +1,6 @@
 {
   "name": "eyp-nfs",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": "eyp",
   "summary": "nfs management",
   "license": "Apache-2.0",
@@ -38,10 +38,6 @@
     }
   ],
   "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": ">= 3.0.0"
-    },
     {
       "name": "puppet",
       "version_requirement": ">= 3.0.0"

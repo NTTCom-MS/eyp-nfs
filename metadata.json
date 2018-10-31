@@ -1,6 +1,6 @@
 {
   "name": "eyp-nfs",
-  "version": "0.1.13",
+  "version": "0.1.15",
   "author": "eyp",
   "summary": "nfs management",
   "license": "Apache-2.0",
@@ -9,6 +9,7 @@
   "issues_url": "https://github.com/NTTCom-MS/eyp-nfs/issues",
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 1.0.0 < 9.9.9"},
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.0 < 9.9.9"},
     {"name":"eyp/eyplib","version_requirement":">= 0.1.0 < 0.2.0"},
     {"name":"eyp/systemd","version_requirement":">= 0.1.29 < 0.2.0"}
   ],
@@ -35,7 +36,11 @@
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "14.04" ]
+      "operatingsystemrelease": [ "14.04", "16.04" ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [ "11.3" ]
     }
   ],
   "requirements": [

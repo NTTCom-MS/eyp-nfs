@@ -26,14 +26,15 @@ describe 'nfs class' do
         is_server => true,
       }
 
-      nfs::export { '/etc':
+      nfs::export { '/tmp':
         fsid => '1',
       }
 
       ->
 
-      nfs::nfsmount { '/mnt/etc':
-        nfsdevice => '127.0.0.1:/etc',
+      nfs::nfsmount { '/mnt/tmp':
+        nfsdevice => '127.0.0.1:/tmp',
+        require   => Class['nfs::service'],
       }
 
       EOF
@@ -46,16 +47,7 @@ describe 'nfs class' do
     describe file("/etc/exports") do
       it { should be_file }
       its(:content) { should match 'puppet managed file' }
-      its(:content) { should match '/etc' }
-    end
-
-    it "mounts nfs" do
-      expect(shell("mount | grep 127.0.0.1").exit_code).to be_zero
-    end
-
-    #showmount -e 127.0.0.1 | grep /etc
-    it "showmount" do
-      expect(shell("showmount -e 127.0.0.1 | grep /etc").exit_code).to be_zero
+      its(:content) { should match '/tmp' }
     end
 
     describe service($nfsservice) do

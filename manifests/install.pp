@@ -1,7 +1,3 @@
-# == Class: nfs
-#
-# === nfs::install documentation
-#
 class nfs::install inherits nfs {
 
   if($nfs::manage_package)
@@ -29,6 +25,13 @@ class nfs::install inherits nfs {
     systemd::socket { 'rpcbind':
       description   => 'RPCbind Server Activation Socket',
       listen_stream => [ '/var/run/rpcbind.sock', '0.0.0.0:111' ],
+      notify        => Exec['systemd-tmpfiles create rpcbind.conf'],
+    }
+
+    exec { 'systemd-tmpfiles create rpcbind.conf':
+      command     => '/usr/bin/systemd-tmpfiles --create rpcbind.conf',
+      path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+      refreshonly => true,
     }
   }
 
